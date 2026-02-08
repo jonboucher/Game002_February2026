@@ -5,6 +5,7 @@ public class Player : MonoBehaviour
 {
     Rigidbody2D rb;
 
+    Vector3 initialPosition;
     float moveDirection = 0f;
     float facing = 1f;
     [SerializeField] private float speed = 8.5f;
@@ -14,13 +15,15 @@ public class Player : MonoBehaviour
     [SerializeField] GroundCheck groundCheck;
     [SerializeField] private float jumpVelocity = 35f;
 
-    [SerializeField] private GameObject gun;
+    [SerializeField] private Gun gun;
     [SerializeField] private GameObject bullet;
+
 
     private void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
         rb.gravityScale = 7.3f;
+        initialPosition = transform.position;
     }
 
     private void FixedUpdate()
@@ -66,15 +69,25 @@ public class Player : MonoBehaviour
         }
     }
 
-    public void handleShoot(InputAction.CallbackContext ctx)
+    public void HandleShoot(InputAction.CallbackContext ctx)
     {
         if (ctx.started)
         {
-            GameObject firedBulletRef = Instantiate(bullet, gun.transform.position, Quaternion.identity);
-            Bullet firedBullet = firedBulletRef.GetComponent<Bullet>();
+            gun.Shoot(facing);
+        }
+    }
 
-            firedBullet.speed = firedBullet.speed * facing;
+    private void Respawn()
+    {
+        transform.position = initialPosition;
+        rb.linearVelocity = new Vector2(0, 0);
+    }
 
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.CompareTag("Hazard"))
+        {
+            Respawn();
         }
     }
 }
