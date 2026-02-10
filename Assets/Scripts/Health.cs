@@ -3,7 +3,7 @@ using UnityEngine;
 public class Health : MonoBehaviour
 {
     [SerializeField] int startingHealth = 1;
-    private int currentHealth = 1;
+    public int currentHealth = 1;
 
     private void Awake()
     {
@@ -22,6 +22,14 @@ public class Health : MonoBehaviour
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.tag == "Bullet")
+        {
+            HandleHit(1);
+        }
+    }
+
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (collision.collider.tag == "Enemy" && gameObject.tag == "Player")
         {
             HandleHit(1);
         }
