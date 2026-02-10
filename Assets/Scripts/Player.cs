@@ -54,10 +54,6 @@ public class Player : MonoBehaviour
     public void HandleJump(InputAction.CallbackContext ctx) {
         if (ctx.started) { 
             jumpRequested = true;
-        } 
-        else if (ctx.canceled)
-        {
-            jumpRequested = false;
         }
     }
 
@@ -66,6 +62,7 @@ public class Player : MonoBehaviour
         if (jumpRequested && groundCheck.isGrounded == true)
         {
             rb.linearVelocityY = jumpVelocity;
+            jumpRequested = false;
         }
     }
 
