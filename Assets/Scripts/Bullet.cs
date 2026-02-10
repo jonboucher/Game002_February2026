@@ -18,7 +18,10 @@ public class Bullet : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        Destroy(gameObject);
-        firedFrom.onScreenBullets--;
+        if (collision.gameObject.layer != 6)
+        {
+            Destroy(gameObject);
+            firedFrom.onScreenBullets--;
+        }
     }
 }

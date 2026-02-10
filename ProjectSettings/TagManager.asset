@@ -8,6 +8,7 @@ TagManager:
   - Hazard
   - Bullet
   - Enemy
+  - PatrolTurn
   layers:
   - Default
   - TransparentFX
